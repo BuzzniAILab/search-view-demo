@@ -4,6 +4,8 @@
 
 body {
   background-color: gainsboro;
+  letter-spacing: -1px;
+  word-break: break-all;
 }
 
 /* :root {
