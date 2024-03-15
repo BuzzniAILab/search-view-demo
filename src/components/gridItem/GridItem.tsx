@@ -17,13 +17,10 @@ export default function GridItem({ item }: Props) {
   return (
     <div key={item.pid}>
       <div className="relative min-w-40 min-h-40 rounded-full">
-        <Image
+        <img
           src={item.img}
           alt={item.name}
-          fill
-          style={{ objectFit: 'cover' }}
-          sizes="160px, 160px"
-          priority
+          className="w-full h-full object-cover"
         />
       </div>
       <span className="line-clamp-2 break-words text-base mt-3">
