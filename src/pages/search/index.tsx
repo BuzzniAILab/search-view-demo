@@ -117,7 +117,7 @@ export default function Index() {
   }, [isTv]);
 
   useEffect(() => {
-    if (router.query) {
+    if (Object.keys(router.query).length > 0) {
       setKeyword(params.query);
       handleSearch();
     }
