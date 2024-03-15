@@ -14,8 +14,16 @@ const calculateDiscount = (price: number, discountPrice: number) => {
 };
 
 export default function ListItem({ item }: Props) {
+  const itemClickHandler = () => {
+    window.open(item.url, '_self');
+  };
+
   return (
-    <div key={item.pid} className="flex gap-4 items-center w-full">
+    <div
+      key={item.pid}
+      className="flex gap-4 items-center w-full"
+      onClick={itemClickHandler}
+    >
       <div className="relative relative w-20 h-20 min-h-24 min-w-24">
         <img
           src={item.img}

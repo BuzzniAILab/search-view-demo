@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Inter } from 'next/font/google';
-import { GetServerSidePropsContext } from 'next';
+import { initKeyword } from '@/helper/function';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -121,7 +121,7 @@ export default function Home() {
 export async function getServerSideProps() {
   return {
     redirect: {
-      destination: '/search?query=%EB%A7%88%EC%8A%A4%ED%81%AC', // 리다이렉트할 경로
+      destination: encodeURI('/search?query=' + initKeyword), // 리다이렉트할 경로
       permanent: false, // 이 리다이렉트가 영구적인지 여부 (HTTP 상태 코드 308 vs 307)
     },
   };

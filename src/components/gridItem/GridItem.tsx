@@ -14,8 +14,12 @@ const calculateDiscount = (price: number, discountPrice: number) => {
 };
 
 export default function GridItem({ item }: Props) {
+  const itemClickHandler = () => {
+    window.open(item.url, '_self');
+  };
+
   return (
-    <div key={item.pid}>
+    <div key={item.pid} onClick={itemClickHandler}>
       <div className="relative min-w-40 min-h-40 rounded-full">
         <img
           src={item.img}

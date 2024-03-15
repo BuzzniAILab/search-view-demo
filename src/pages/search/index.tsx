@@ -12,6 +12,7 @@ import LayoutMode from '@/components/layout/LayoutMode';
 import GirdItem from '@/components/gridItem/GridItem';
 import ListItem from '@/components/listItem/ListItem';
 import Head from 'next/head';
+import { initKeyword } from '@/helper/function';
 
 export type DataType = {
   pid: string;
@@ -38,6 +39,7 @@ export default function Index() {
   const [isTv, setTv] = useState<boolean>(false);
   const [isGrid, setGrid] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [sortType, setSortType] = useState<string>('');
 
   const AUTH_KEY_DEV: string = '105578c7-00c9-47c6-b140-a0870214db0e';
   const AUTH_KEY: string = '667872bd-a2d3-4c0e-bc14-c7aad851dbc6';
@@ -69,8 +71,16 @@ export default function Index() {
     setGrid(isGrid);
   };
 
+  const handleChangeSortType = (e: any) => {
+    setSortType(e.target.value);
+  };
+
   const handleSearch = async () => {
-    if (!params.query) return;
+    if (!params.query) {
+      handleRouter();
+      return;
+    }
+
     const data: any = params.query ? params : { query: '' };
     if (data) {
       url += '?' + new URLSearchParams(data).toString();
@@ -95,8 +105,9 @@ export default function Index() {
 
   const handleRouter = () => {
     const params: any = {
-      query: keyword,
-      limit: 100,
+      query: keyword || initKeyword,
+      limit: 20,
+      order: sortType || 'popularity_score_desc',
     };
     router.push('?' + new URLSearchParams(params).toString());
   };
@@ -111,6 +122,12 @@ export default function Index() {
       handleSearch();
     }
   }, [router]);
+
+  useEffect(() => {
+    if (sortType !== '') {
+      handleRouter();
+    }
+  }, [sortType]);
 
   useEffect(init, []);
 
@@ -130,9 +147,9 @@ export default function Index() {
       )}
       <div className="flex flex-col gap-2 h-full max-w-7xl mx-auto">
         <div className="flex p-2 gap-2 bg-gray-50 sticky top-0 z-10">
-          <button>
+          {/* <button>
             <IoIosArrowBack size={24} />
-          </button>
+          </button> */}
           <div className="rounded-full bg-gray-200 flex w-full items-center">
             <input
               name="keyword"
@@ -176,10 +193,16 @@ export default function Index() {
               <span className="text-gray-200">|</span>
               <LayoutMode onClick={changeLayoutHandler} />
               <span className="text-gray-200">|</span>
-              <button className="flex items-center gap-1">
-                <span className="text-sm">인기순</span>
-                <FaAngleDown className="text-gray-400" />
-              </button>
+              <select
+                name="viewSortType"
+                className="text-sm bg-transparent outline-none"
+                onChange={handleChangeSortType}
+                value={sortType}
+              >
+                <option value="popularity_score_desc">추천높은순</option>
+                <option value="sale_price_asc">낮은가격순</option>
+                <option value="sale_price_desc">높은가격순</option>
+              </select>
             </div>
           </div>
           <div>
