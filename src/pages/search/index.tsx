@@ -37,7 +37,7 @@ export default function Index() {
   const [total, setTotal] = useState<number>(0);
   const [isTv, setTv] = useState<boolean>(false);
   const [isGrid, setGrid] = useState<boolean>(true);
-  const [isInit, setInit] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const AUTH_KEY_DEV: string = '105578c7-00c9-47c6-b140-a0870214db0e';
   const AUTH_KEY: string = '667872bd-a2d3-4c0e-bc14-c7aad851dbc6';
@@ -53,6 +53,7 @@ export default function Index() {
   const handleKeyDown = (e: any) => {
     if (e.key === 'Enter' && keyword !== '') {
       handleRouter();
+      e.target.blur();
     }
   };
 
@@ -73,7 +74,7 @@ export default function Index() {
     const data: any = params.query ? params : { query: '' };
     if (data) {
       url += '?' + new URLSearchParams(data).toString();
-
+      setLoading(true);
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -81,6 +82,7 @@ export default function Index() {
           'x-api-key': AUTH_KEY_DEV,
         },
       });
+      setLoading(false);
       const result = await response.json();
 
       if (result.total === 0) return;
@@ -120,6 +122,12 @@ export default function Index() {
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
         />
       </Head>
+      {loading && (
+        <div className="z-50 absolute w-full h-full top-0 left-0 right-0 bottom-0">
+          <div className="loader inset-0 m-auto absolute" />
+          <div className="bg-black w-full h-full opacity-15"></div>
+        </div>
+      )}
       <div className="flex flex-col gap-2 h-full max-w-7xl mx-auto">
         <div className="flex p-2 gap-2 bg-gray-50 sticky top-0 z-10">
           <button>
@@ -176,7 +184,7 @@ export default function Index() {
           </div>
           <div>
             <div
-              className={`grid gap-4 gap-y-8 w-full${
+              className={`grid gap-4 gap-y-8 w-full ${
                 isGrid
                   ? 'md:grid-cols-6 grid-cols-2'
                   : 'md:grid-cols-3 grid-cols-1'
