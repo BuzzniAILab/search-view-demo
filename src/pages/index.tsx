@@ -121,7 +121,7 @@ export default function Home() {
 export async function getServerSideProps() {
   return {
     redirect: {
-      destination: encodeURI('/search?query=' + initKeyword), // 리다이렉트할 경로
+      destination: encodeURI('/search?query='), // 리다이렉트할 경로
       permanent: false, // 이 리다이렉트가 영구적인지 여부 (HTTP 상태 코드 308 vs 307)
     },
   };
