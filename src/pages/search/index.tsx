@@ -40,7 +40,7 @@ export default function Index() {
   const [isTv, setTv] = useState<boolean>(false);
   const [isGrid, setGrid] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const [sortType, setSortType] = useState<string>('');
+  const [sortType, setSortType] = useState<string>('popularity_score_desc');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [page, setPage] = useState(-1);
