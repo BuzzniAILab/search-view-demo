@@ -211,7 +211,7 @@ export default function Index() {
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
         />
       </Head>
-      <div id="main" className="flex flex-col gap-2 h-full max-w-7xl mx-auto">
+      <div id="main" className="flex flex-col gap-1 h-full max-w-7xl mx-auto">
         <div className="flex p-2 gap-2 bg-gray-50 sticky top-0 z-10">
           {/* <button>
             <I oIosArrowBack size={24} />
