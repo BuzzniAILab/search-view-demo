@@ -40,7 +40,7 @@ export default function Index() {
   const [isTv, setTv] = useState<boolean>(false);
   const [isGrid, setGrid] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const [sortType, setSortType] = useState<string>('popularity_score_desc');
+  const [sortType, setSortType] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [page, setPage] = useState(-1);
@@ -130,10 +130,13 @@ export default function Index() {
   };
 
   const handleRouter = () => {
+    console.log(query);
+    console.log(keyword);
     const params: any = {
       query: keyword || initKeyword,
       limit: 20,
-      order: query !== keyword ? 'popularity_score_desc' : sortType,
+      order:
+        query !== keyword || !sortType ? 'popularity_score_desc' : sortType,
       offset: 0,
     };
 
