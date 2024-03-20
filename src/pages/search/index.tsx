@@ -199,10 +199,6 @@ export default function Index() {
     }
   }, [sortType]);
 
-  useEffect(() => {
-    console.log(assignData);
-  }, [assignData]);
-
   return (
     <>
       <Head>
