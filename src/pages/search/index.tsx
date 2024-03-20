@@ -130,8 +130,6 @@ export default function Index() {
   };
 
   const handleRouter = () => {
-    console.log(query);
-    console.log(keyword);
     const params: any = {
       query: keyword || initKeyword,
       limit: 20,
@@ -139,6 +137,8 @@ export default function Index() {
         query !== keyword || !sortType ? 'popularity_score_desc' : sortType,
       offset: 0,
     };
+
+    setTv(false);
 
     router.push('?' + new URLSearchParams(params).toString());
   };
@@ -168,21 +168,28 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    setAssignData(isTv ? data.filter((item) => item.is_tv_product) : data);
+    // setAssignData([...assignData.filter((item) => item.is_tv_product)]);
+    // console.log(isTv);
+    setAssignData(
+      isTv ? [...assignData.filter((item) => item.is_tv_product)] : [...data]
+    );
+    return;
   }, [isTv]);
 
   useEffect(() => {
-    if (Object.keys(router.query).length > 0) {
+    if (Object.keys(router.query).length > 0 && !isTv) {
       setKeyword(params.query);
       setSortType(params.order);
       setPage(Number(params.offset));
       handleSearch();
+      console.log('1');
     }
   }, [router]);
 
   useEffect(() => {
-    if (Object.keys(router.query).length > 0) {
+    if (Object.keys(router.query).length > 0 && !isTv) {
       handleSearch();
+      console.log('2');
     }
   }, [page]);
 
@@ -191,6 +198,10 @@ export default function Index() {
       handleRouter();
     }
   }, [sortType]);
+
+  useEffect(() => {
+    console.log(assignData);
+  }, [assignData]);
 
   return (
     <>
