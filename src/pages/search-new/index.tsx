@@ -261,7 +261,7 @@ export default function Search() {
                   onChange={handleChangeSortType}
                   value={sortType}
                 >
-                  <option value="popularity_score_desc">추천높은순</option>
+                  <option value="popularity_score_desc">추천순</option>
                   <option value="sale_price_asc">낮은가격순</option>
                   <option value="sale_price_desc">높은가격순</option>
                 </select>
