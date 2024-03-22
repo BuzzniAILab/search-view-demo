@@ -46,6 +46,7 @@ export default function Search() {
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   let url: string = 'https://aiaas-dev.buzzni.com/api/search';
+  // let url: string = 'http://192.168.2.49:8000/search';
 
   const handleKeywordChange = (e: any) => {
     const value = e?.target?.value;
