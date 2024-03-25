@@ -21,6 +21,7 @@ export type DataType = {
   brand: string;
   url: string;
   img: string;
+  image: string;
   sale_price: number;
   review_count: number;
   discount_amount: number;

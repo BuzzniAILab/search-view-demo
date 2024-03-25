@@ -28,7 +28,7 @@ export default function ListItem({ item }: Props) {
         >
           <div className="relative h-20 w-20  min-h-24 min-w-24">
             <img
-              src={item.img}
+              src={item.img || item.image}
               alt={item.name}
               className="w-full h-full object-cover"
             />
