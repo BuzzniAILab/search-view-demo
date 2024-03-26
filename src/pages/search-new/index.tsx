@@ -161,7 +161,7 @@ export default function Search() {
       const data = {
         query: query,
         order: sortType,
-        offset: page || 0,
+        offset: page * 10 || 0,
         limit: limit,
       };
 
