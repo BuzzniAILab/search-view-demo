@@ -22,7 +22,11 @@ export default function GridItem({ item }: Props) {
   return (
     <>
       {item && (
-        <div key={item.pid} onClick={itemClickHandler}>
+        <div
+          key={item.pid}
+          onClick={itemClickHandler}
+          className="cursor-pointer"
+        >
           <div className="relative min-w-40 min-h-40 rounded-full">
             <img
               src={item.img || item.image}

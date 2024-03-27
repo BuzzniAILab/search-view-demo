@@ -24,7 +24,7 @@ export default function ListItem({ item }: Props) {
       {item && (
         <div
           key={item.pid}
-          className="flex gap-4 items-center w-full"
+          className="flex gap-4 items-center w-full cursor-pointer"
           onClick={itemClickHandler}
         >
           <div className="relative h-20 w-20  min-h-24 min-w-24">
