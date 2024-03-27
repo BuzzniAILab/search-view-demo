@@ -1,13 +1,14 @@
-import LayoutMode from '@/components/layout/LayoutMode';
-import { str } from '@/utils';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
 import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
+
 import { FaSearch } from 'react-icons/fa';
-import { IoCloseCircleSharp } from 'react-icons/io5';
 import GirdItem from '@/components/gridItem/GridItem';
+import Head from 'next/head';
+import { IoCloseCircleSharp } from 'react-icons/io5';
+import LayoutMode from '@/components/layout/LayoutMode';
 import ListItem from '@/components/listItem/ListItem';
 import { initKeyword } from '@/helper/function';
+import { str } from '@/utils';
+import { useRouter } from 'next/router';
 
 export type DataType = {
   pid: string;
@@ -36,6 +37,7 @@ export default function Search() {
   const [page, setPage] = useState<number>(-1);
   const [limit, setLimit] = useState<number>(20);
   const [total, setTotal] = useState<number>(0);
+  const [isRelevant, setRelevant] = useState<boolean>(true);
   const [data, setData] = useState<DataType[]>([]);
   const [assignData, setAssignData] = useState<DataType[]>([]);
   const [isTv, setTv] = useState<boolean>(false);
@@ -45,7 +47,7 @@ export default function Search() {
   const inputRef = useRef<HTMLInputElement>(null);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
-  let url: string = 'https://aiaas-dev.buzzni.com/api/search';
+  let url: string = 'http://172.28.10.17:25999/search';
   // let url: string = 'http://192.168.2.49:8000/search';
 
   const handleKeywordChange = (e: any) => {
@@ -120,6 +122,7 @@ export default function Search() {
 
       setData(result?.results);
       setTotal(result?.total);
+      setRelevant(result?.is_relevant);
 
       await setAssignData(
         isNew ? result?.results : [...assignData, ...result?.results]
@@ -160,7 +163,7 @@ export default function Search() {
       const data = {
         query: query,
         order: sortType,
-        offset: page || 0,
+        offset: page * limit,
         limit: limit,
       };
 
@@ -243,6 +246,11 @@ export default function Search() {
                 전체 {total ? str.currency(total) : 0} 개
               </span>
             </div>
+            {!isRelevant && (
+              <div className="text-center text-sm text-gray-700 align-middle inline-block mt-4">
+                검색 결과가 없습니다. 아래 상품들을 추천 드립니다.
+              </div>
+            )}
             <div className="flex items-center gap-2">
               <button
                 className={`w-20 h-7 ${

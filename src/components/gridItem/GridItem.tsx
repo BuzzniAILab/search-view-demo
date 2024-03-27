@@ -1,9 +1,9 @@
 import { DataType } from '@/pages/search';
-import { str } from '@/utils';
-import Image from 'next/image';
-import React from 'react';
 import { FaStar } from 'react-icons/fa6';
 import Favorite from '../favorite/Favorite';
+import Image from 'next/image';
+import React from 'react';
+import { str } from '@/utils';
 
 type Props = {
   item: DataType;

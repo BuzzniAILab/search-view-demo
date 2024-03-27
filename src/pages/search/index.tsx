@@ -1,18 +1,19 @@
-import { IoIosArrowBack, IoMdCloseCircleOutline } from 'react-icons/io';
-import { CiSearch } from 'react-icons/ci';
-import { IoIosCloseCircleOutline } from 'react-icons/io';
-import { useForm } from 'react-hook-form';
-import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { IoCloseCircleSharp, IoGrid } from 'react-icons/io5';
 import { FaAngleDown, FaHeart, FaRegHeart, FaStar } from 'react-icons/fa6';
-import { str } from '@/utils';
-import { useRouter } from 'next/router';
+import { IoCloseCircleSharp, IoGrid } from 'react-icons/io5';
+import { IoIosArrowBack, IoMdCloseCircleOutline } from 'react-icons/io';
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
+
+import { CiSearch } from 'react-icons/ci';
 import { FaSearch } from 'react-icons/fa';
-import LayoutMode from '@/components/layout/LayoutMode';
 import GirdItem from '@/components/gridItem/GridItem';
-import ListItem from '@/components/listItem/ListItem';
 import Head from 'next/head';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
+import LayoutMode from '@/components/layout/LayoutMode';
+import ListItem from '@/components/listItem/ListItem';
 import { initKeyword } from '@/helper/function';
+import { str } from '@/utils';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 
 export type DataType = {
   pid: string;
@@ -37,6 +38,7 @@ export default function Index() {
   const [data, setData] = useState<DataType[]>([]);
   const [assignData, setAssignData] = useState<any[]>([]);
   const [total, setTotal] = useState<number>(0);
+  const [isRelevant, setRelevant] = useState<boolean>(true);
   const [isTv, setTv] = useState<boolean>(false);
   const [isGrid, setGrid] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,7 +50,7 @@ export default function Index() {
 
   const AUTH_KEY_DEV: string = '105578c7-00c9-47c6-b140-a0870214db0e';
   const AUTH_KEY: string = '667872bd-a2d3-4c0e-bc14-c7aad851dbc6';
-  let url: string = 'https://aiaas-dev.buzzni.com/api/search';
+  let url: string = 'http://172.28.10.17:25999/search';
 
   const init = () => {};
 
