@@ -39,6 +39,7 @@ export default function Search() {
   const [total, setTotal] = useState<number>(0);
   const [data, setData] = useState<DataType[]>([]);
   const [assignData, setAssignData] = useState<DataType[]>([]);
+  const [isRelevant, setRelevant] = useState<boolean>(true);
   const [isTv, setTv] = useState<boolean>(false);
   const [isGrid, setGrid] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
@@ -46,7 +47,8 @@ export default function Search() {
   const inputRef = useRef<HTMLInputElement>(null);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
-  let url: string = 'https://aiaas-dev.buzzni.com/api/search';
+  // let url: string = 'https://aiaas-dev.buzzni.com/api/search';
+  let url: string = 'http://172.28.10.17:25999/search';
   // let url: string = 'http://192.168.2.49:8000/search';
 
   const handleKeywordChange = (e: any) => {
@@ -121,6 +123,7 @@ export default function Search() {
 
       setData(result?.results);
       setTotal(result?.total);
+      setRelevant(result?.is_relevant);
 
       await setAssignData(
         isNew ? result?.results : [...assignData, ...result?.results]
@@ -241,7 +244,7 @@ export default function Search() {
           <div className="flex justify-between">
             <div>
               <span className="text-xs font-semibold">
-                전체 {total ? str.currency(total) : 0} 개
+                전체 {total && isRelevant ? str.currency(total) : 0} 개
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -270,6 +273,18 @@ export default function Search() {
               )}
             </div>
           </div>
+          {!isRelevant && (
+            <div className="w-full ">
+              <div className="text-center py-16 border-b">
+                <span className="mx-auto text-sm text-gray-400">{`'${keyword}' 검색 결과가 없습니다.`}</span>
+              </div>
+              <div className="mt-4">
+                <span className="mx-auto text-lg text-gray-700 font-bold">
+                  아래 상품들을 추천드립니다.
+                </span>
+              </div>
+            </div>
+          )}
           <div>
             <div
               className={`grid gap-4 gap-y-8 w-full ${
