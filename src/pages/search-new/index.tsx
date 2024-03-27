@@ -32,6 +32,7 @@ export default function Search() {
 
   const params: any = router.query;
   const [query, setQuery] = useState<string>('');
+  const [emptyQuery, setEmptyQuery] = useState<string>('');
   const [keyword, setKeyword] = useState<string>('');
   const [sortType, setSortType] = useState<string>('');
   const [page, setPage] = useState<number>(-1);
@@ -43,13 +44,14 @@ export default function Search() {
   const [isTv, setTv] = useState<boolean>(false);
   const [isGrid, setGrid] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingNew, setLoadingNew] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   // TODO: API URL 변경
-  let url: string = 'https://aiaas-dev.buzzni.com/api/search';
-  // let url: string = 'http://172.28.10.17:25999/search'; // 저스틴 API
+  // let url: string = 'https://aiaas-dev.buzzni.com/api/search';
+  let url: string = 'http://172.28.10.17:25999/search'; // 저스틴 API
   // let url: string = 'http://192.168.2.49:8000/search'; // 미키 자리
 
   const handleKeywordChange = (e: any) => {
@@ -112,6 +114,7 @@ export default function Search() {
     if (data) {
       url += '?' + new URLSearchParams(params).toString();
       setLoading(true);
+      isNew && setLoadingNew(true);
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -122,15 +125,18 @@ export default function Search() {
 
       const result = await response.json();
 
-      setData(result?.results);
-      setTotal(result?.total);
-      if (result?.is_relevant) setRelevant(result?.is_relevant);
+      setData(result.results);
+      setTotal(result.total);
+      setRelevant(result.is_relevant);
+
+      if (result.total === 0 || !result.is_relevant) setEmptyQuery(query);
 
       await setAssignData(
         isNew ? result?.results : [...assignData, ...result?.results]
       );
 
       setLoading(false);
+      isNew && setLoadingNew(false);
     }
   };
 
@@ -211,7 +217,15 @@ export default function Search() {
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
         />
       </Head>
-      <div id="main" className="flex flex-col gap-1 h-full max-w-7xl mx-auto">
+      <div
+        id="main"
+        className="flex flex-col gap-1 h-full max-w-7xl mx-auto min-h-screen"
+      >
+        {loadingNew && (
+          <div className="w-full text-center my-10 absolute top-48 z-10">
+            <div className="loader inset-0 mx-auto" />
+          </div>
+        )}
         <div className="flex p-2 gap-2 bg-gray-50 sticky top-0 z-10">
           {/* <button>
             <I oIosArrowBack size={24} />
@@ -241,7 +255,7 @@ export default function Search() {
             />
           </div>
         </div>
-        <div className="bg-gray-50 h-full p-4 flex flex-col gap-4">
+        <div className="bg-gray-50 h-full p-4 flex flex-col gap-4 flex-grow">
           <div className="flex justify-between">
             <div>
               <span className="text-xs font-semibold">
@@ -274,16 +288,18 @@ export default function Search() {
               )}
             </div>
           </div>
-          {!isRelevant && (
+          {(!isRelevant || total === 0) && (
             <div className="w-full ">
               <div className="text-center py-16 border-b">
-                <span className="mx-auto text-sm text-gray-400">{`'${keyword}' 검색 결과가 없습니다.`}</span>
+                <span className="mx-auto text-sm text-gray-400">{`'${emptyQuery}' 검색 결과가 없습니다.`}</span>
               </div>
-              <div className="mt-4">
-                <span className="mx-auto text-lg text-gray-700 font-bold">
-                  아래 상품들을 추천드립니다.
-                </span>
-              </div>
+              {assignData.length > 0 && (
+                <div className="mt-4">
+                  <span className="mx-auto text-lg text-gray-700 font-bold">
+                    아래 상품들을 추천드립니다.
+                  </span>
+                </div>
+              )}
             </div>
           )}
           <div>
@@ -312,7 +328,7 @@ export default function Search() {
               </span>
             </div> */}
             <div ref={loaderRef}>
-              {loading && (
+              {loading && !loadingNew && (
                 // <div className="z-50 absolute w-full h- top-0 left-0 right-0 bottom-0">
                 //   <div className="loader inset-0 m-auto absolute" />
                 //    <div className="bg-black w-full h-full opacity-15"></div>
