@@ -47,9 +47,10 @@ export default function Search() {
   const inputRef = useRef<HTMLInputElement>(null);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
+  // TODO: API URL 변경
   // let url: string = 'https://aiaas-dev.buzzni.com/api/search';
-  let url: string = 'http://172.28.10.17:25999/search';
-  // let url: string = 'http://192.168.2.49:8000/search';
+  let url: string = 'http://172.28.10.17:25999/search'; // 저스틴 API
+  // let url: string = 'http://192.168.2.49:8000/search'; // 미키 자리
 
   const handleKeywordChange = (e: any) => {
     const value = e?.target?.value;
