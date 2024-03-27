@@ -221,7 +221,7 @@ export default function Search() {
         id="main"
         className="flex flex-col gap-1 h-full max-w-7xl mx-auto min-h-screen relative"
       >
-        {!loadingNew && (
+        {loadingNew && (
           <div className="w-full text-center my-10 absolute top-48 z-10">
             <div className="loader inset-0 mx-auto" />
           </div>
