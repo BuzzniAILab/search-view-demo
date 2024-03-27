@@ -124,7 +124,7 @@ export default function Search() {
 
       setData(result?.results);
       setTotal(result?.total);
-      setRelevant(result?.is_relevant);
+      if (result?.is_relevant) setRelevant(result?.is_relevant);
 
       await setAssignData(
         isNew ? result?.results : [...assignData, ...result?.results]
