@@ -15,7 +15,8 @@ const calculateDiscount = (price: number, discountPrice: number) => {
 
 export default function GridItem({ item }: Props) {
   const itemClickHandler = () => {
-    window.open(item.url, '_self');
+    const url = `https://www.hmall.com/pd/pda/itemPtc?slitmCd=${item.pid}`;
+    window.open(url, '_self');
   };
 
   return (
