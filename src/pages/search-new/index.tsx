@@ -37,7 +37,7 @@ export default function Search() {
   const [sortType, setSortType] = useState<string>('');
   const [page, setPage] = useState<number>(-1);
   const [limit, setLimit] = useState<number>(20);
-  const [total, setTotal] = useState<number>(0);
+  const [total, setTotal] = useState<number>(-1);
   const [data, setData] = useState<DataType[]>([]);
   const [assignData, setAssignData] = useState<DataType[]>([]);
   const [isRelevant, setRelevant] = useState<boolean>(true);
@@ -50,8 +50,8 @@ export default function Search() {
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   // TODO: API URL 변경
-  // let url: string = 'https://aiaas-dev.buzzni.com/api/search';
-  let url: string = 'http://172.28.10.17:25999/search'; // 저스틴 API
+  let url: string = 'https://aiaas-dev.buzzni.com/api/search';
+  // let url: string = 'http://172.28.10.17:25999/search'; // 저스틴 API
   // let url: string = 'http://192.168.2.49:8000/search'; // 미키 자리
 
   const handleKeywordChange = (e: any) => {
@@ -259,7 +259,8 @@ export default function Search() {
           <div className="flex justify-between">
             <div>
               <span className="text-xs font-semibold">
-                전체 {total && isRelevant ? str.currency(total) : 0} 개
+                전체{' '}
+                {total && total > -1 && isRelevant ? str.currency(total) : 0} 개
               </span>
             </div>
             <div className="flex items-center gap-2">
